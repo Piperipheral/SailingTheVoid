@@ -22,8 +22,7 @@ public class ShipMovement : MonoBehaviour
     {
 
         //moving forward
-        if (Input.GetKeyDown(KeyCode.W)) isEngineOn = true;
-        else if (Input.GetKeyUp(KeyCode.W)) isEngineOn = false;
+        isEngineOn = Input.GetKey(KeyCode.W);
         if (Input.GetKey(KeyCode.D))
         {
             isRotating = true;
