@@ -17,6 +17,12 @@ public class SlightMovement : MonoBehaviour
     public float amplitude;
     public float rotationFactor;
     private float i;
+
+
+    public bool enableX;
+    public bool enableY;
+    public bool enableZ;
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -28,11 +34,11 @@ public class SlightMovement : MonoBehaviour
     void FixedUpdate()
     {
         i += frequency * Time.deltaTime;
-        posX = Mathf.Sin(i * speedOffset.x + initOffset.x);
-        posY = Mathf.Sin(i * speedOffset.y + initOffset.y);
-        posZ = Mathf.Sin(i * speedOffset.z + initOffset.z);
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sin(i)) * Time.deltaTime * rotationFactor);
+        posX = enableX ? Mathf.Sin(i * speedOffset.x + initOffset.x) : 0;
+        posY = enableY ? Mathf.Sin(i * speedOffset.y + initOffset.y) : 0;
+        posZ = enableZ ? Mathf.Sin(i * speedOffset.z + initOffset.z) : 0;
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Cos(i) * Time.deltaTime * rotationFactor));
         rigidBody.MoveRotation(rigidBody.rotation * deltaRotation);
-        rigidBody.position = new Vector3(posX + initPosition.x, posY + initPosition.y, posZ + initPosition.z) * amplitude;
+        //rigidBody.position = new Vector3(posX + initPosition.x, posY + initPosition.y, posZ + initPosition.z) * amplitude;
     }
 }
