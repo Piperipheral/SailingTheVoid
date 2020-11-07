@@ -36,7 +36,7 @@ public class cameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (zoom) targetFOV = zoomFOV;
         else targetFOV = defaultFOV;

@@ -4,8 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FishMan", menuName = "MyData/FishType")]
 public class Fishes : ScriptableObject
 {
-    float id;
-    string fishName;
-    Sprite sprite;
-    string flavorText;
+    [Header("Asthetics")]
+    public string fishName;
+    public Sprite sprite;
+    [TextArea(10, 10)]
+    public string flavorText;
+    [Header("Mechanics")]
+    public float id;
+    public Bait favoriteBait;
+    public int fishStregth;
 }

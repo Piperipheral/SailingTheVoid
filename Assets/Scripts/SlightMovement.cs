@@ -25,8 +25,6 @@ public class SlightMovement : MonoBehaviour
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
-        initPosition = rigidBody.position;
         i = 0;
     }
 

@@ -4,43 +4,34 @@ using UnityEngine;
 
 public class ShipMovement : MonoBehaviour
 {
+    [Header("ShipData")]
+    public Spaceship ship;
     private Rigidbody rigidBody;
     public ParticleSystem buttFire;
-    public bool isEngineOn;
     public float speedForward;
     public float speedRotation;
     private float curRot;
     private bool isRotating;
-    private float curSpeed;
+    public float curSpeed;
+
+    [Header("bob effects")]
+    public float amplitude;
+    public float frequency;
+    private float initY;
     // Start is called before the first frame update
     void Start()
     {
         isRotating = false;
         rigidBody = GetComponent<Rigidbody>();
+        initY = rigidBody.position.y;
     }
     private void Update()
     {
-
         //moving forward
-        isEngineOn = Input.GetKey(KeyCode.W);
-        if (Input.GetKey(KeyCode.D))
+        ship.isEngineOn = Input.GetKey(KeyCode.W);
+        if (ship.isEngineOn)
         {
-            isRotating = true;
-            if (curRot < speedRotation) curRot += 0.1f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            isRotating = true;
-            if (curRot > -speedRotation) curRot -= 0.1f;
-        }
-        if (isRotating)
-        {
-            if (Mathf.Abs(curRot) > 0.1) curRot *= 0.97f;
-            else curRot = 0;
-        }
-        if (isEngineOn)
-        {
-            if (curSpeed < speedForward) curSpeed++;
+            if (curSpeed <= speedForward) curSpeed += 2;
             else curSpeed = speedForward;
             buttFire.enableEmission = true;
         }
@@ -50,6 +41,21 @@ public class ShipMovement : MonoBehaviour
             else curSpeed = 0;
             buttFire.enableEmission = false;
         }
+        if (Input.GetKey(KeyCode.D))
+        {
+            isRotating = true;
+            if (curRot < speedRotation) curRot += 0.2f;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            isRotating = true;
+            if (curRot > -speedRotation) curRot -= 0.2f;
+        }
+        if (isRotating)
+        {
+            if (Mathf.Abs(curRot) > 0.1) curRot *= 0.95f;
+            else curRot = 0;
+        }
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -57,6 +63,7 @@ public class ShipMovement : MonoBehaviour
         Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, curRot, 0));
         rigidBody.MoveRotation(rigidBody.rotation * deltaRotation);
         rigidBody.velocity = transform.rotation * new Vector3(0, 0, curSpeed * Time.deltaTime);
+        rigidBody.position = (new Vector3(rigidBody.position.x, initY + Mathf.Sin(Time.time * frequency) * amplitude, rigidBody.position.z));
         //turning
     }
 }
